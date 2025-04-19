@@ -471,7 +471,18 @@
     /* Медиа-запросы для мобильных устройств */
     @media screen and (max-width: 768px) {
       body {
-        background: linear-gradient(135deg, #0c0c14, #191927);
+        background: linear-gradient(135deg, #12121e, #1c1c2c);
+      }
+      
+      /* Для контента и фоновых элементов */
+      .glass-card, section, .hero, .content {
+        background: rgba(20, 20, 35, 0.9);
+      }
+      
+      /* Убираем светлый фон везде */
+      body::before {
+        background: linear-gradient(125deg, rgba(255, 140, 0, 0.05) 0%, rgba(0, 0, 0, 0) 40%),
+                  linear-gradient(45deg, rgba(0, 0, 0, 0) 60%, rgba(255, 140, 0, 0.08) 100%);
       }
       
       .content {
