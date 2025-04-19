@@ -471,13 +471,46 @@
     /* Медиа-запросы для мобильных устройств */
     @media screen and (max-width: 768px) {
       body {
-        background: linear-gradient(135deg, #0c0c14, #191927);
+        /* Убираем переопределение цвета фона */
+        /* background: linear-gradient(135deg, #0c0c14, #191927); */
+        /* Используем тот же фон что и на ПК */
+        background: linear-gradient(135deg, #12121e, #1c1c2c);
+      }
+      
+      /* Убедимся что анимированный фон и его слои правильно отображаются */
+      .bg-blur {
+        opacity: 0.4; /* Повысим видимость анимации */
       }
       
       .content {
         padding: 0 15px;
         max-width: 100%;
       }
+      
+      /* Обеспечим контрастный темный фон для всех информационных блоков */
+      .glass-card, 
+      .feature-item, 
+      .testimonials {
+        background: rgba(20, 20, 35, 0.95);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 140, 0, 0.2);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      }
+      
+      /* Улучшим контрастность и читаемость на темном фоне */
+      .content li,
+      .feature-item p,
+      blockquote {
+        color: white;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+      }
+      
+      blockquote {
+        background: rgba(255, 140, 0, 0.1);
+      }
+      
+      /* Остальные стили остаются как есть */
       
       .content li {
         color: white;
