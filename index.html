@@ -20,7 +20,7 @@
     /* Современный анимированный фон */
     body {
       position: relative;
-      background: linear-gradient(135deg, #0f0f1a, #242436);
+      background: linear-gradient(135deg, #12121e, #1c1c2c);
       overflow-x: hidden;
     }
     
@@ -174,7 +174,7 @@
     .feature-item p { font-size: 1rem; }
     /* Glass effect for cards */
     .glass-card {
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(30, 30, 50, 0.8);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       border-radius: 15px;
@@ -465,6 +465,91 @@
     .logo-img {
       max-width: 100%;
       height: auto;
+    }
+
+    /* Медиа-запросы для мобильных устройств */
+    @media screen and (max-width: 768px) {
+      body {
+        background: linear-gradient(135deg, #0c0c14, #191927);
+      }
+      
+      .content {
+        padding: 0 15px;
+      }
+      
+      .content li {
+        color: white;
+        margin-bottom: 15px;
+        font-size: 16px;
+        background: rgba(255, 140, 0, 0.1);
+        padding: 10px 10px 10px 30px;
+        border-radius: 8px;
+        border-left: 3px solid var(--accent);
+      }
+      
+      .content h2 {
+        font-size: 28px;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+        color: var(--accent);
+        -webkit-text-fill-color: var(--accent);
+      }
+      
+      .glass-card {
+        background: rgba(20, 20, 35, 0.9);
+        padding: 20px;
+      }
+      
+      .content ul {
+        padding-left: 0;
+      }
+      
+      .hero {
+        padding-top: 4rem;
+      }
+      
+      .logo {
+        max-width: 150px;
+      }
+      
+      .subtitle {
+        font-size: 1.2rem;
+      }
+      
+      .nav-links a {
+        margin: 0 8px;
+        font-size: 14px;
+      }
+      
+      .telegram-mockup {
+        width: 280px;
+        height: 560px;
+      }
+    }
+    
+    /* Дополнительные стили для очень маленьких экранов */
+    @media screen and (max-width: 375px) {
+      .nav-links a {
+        margin: 0 5px;
+        font-size: 12px;
+      }
+      
+      .logo {
+        max-width: 120px;
+      }
+      
+      .content h2 {
+        font-size: 24px;
+      }
+      
+      .content li {
+        font-size: 15px;
+      }
+      
+      .telegram-mockup {
+        width: 250px;
+        height: 500px;
+      }
     }
   </style>
 </head>
