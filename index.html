@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BikePark – аренда электровелосипедов</title>
+  <!-- Подключаю Google Fonts и Animate.css для анимаций -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  <!-- Подключаем AOS для анимаций при скролле -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
+  <!-- Icons for features -->
+  <link rel="stylesheet" href="https://unpkg.com/ionicons@5.5.2/dist/css/ionicons.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Styles for particles background */
+    /* Современный анимированный фон */
+    body {
+      position: relative;
+      background: linear-gradient(135deg, #0f0f1a, #242436);
+      overflow-x: hidden;
+    }
+    
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(125deg, rgba(255, 140, 0, 0.05) 0%, rgba(0, 0, 0, 0) 40%),
+                  linear-gradient(45deg, rgba(0, 0, 0, 0) 60%, rgba(255, 140, 0, 0.08) 100%);
+      z-index: -1;
+    }
+    
+    .bg-blur {
+      position: fixed;
+      top: -50%;
+      left: -50%;
+      right: -50%;
+      bottom: -50%;
+      width: 200%;
+      height: 200%;
+      background: transparent url('data:image/svg+xml;charset=utf8,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"%3E%3Cpath fill="rgba(255, 140, 0, 0.1)" d="M256,0C114.6,0,0,114.6,0,256S114.6,512,256,512,512,397.4,512,256,397.4,0,256,0ZM64,256c0-42.5,13.3-82,35.8-114.4L256,256,114.4,412.2C77.3,377.9,64,319.2,64,256ZM397.6,99.8C430,132.2,448,191.8,448,256c0,42.5-13.3,82-35.8,114.4L256,256,397.6,99.8Z"/%3E%3C/svg%3E') 0 0 no-repeat;
+      z-index: -2;
+      transform: rotate(0);
+      animation: bg-animation 60s linear infinite;
+      opacity: 0.3;
+      pointer-events: none;
+    }
+    
+    @keyframes bg-animation {
+      0% {
+        transform: rotate(0);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    :root { --accent: #FF8C00; --text: #fff; }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+    body { 
+      color: var(--text); 
+      line-height: 1.5;
+    }
+    .hero { text-align: center; padding: 4rem 1rem; padding-top: 6rem; }
+    .logo { max-width: 200px; margin-bottom: 1rem; }
+    .hero h1 { font-size: 2.5rem; color: var(--accent); }
+    .subtitle { font-size: 1.4rem; margin-bottom: 2rem; background: linear-gradient(90deg, #FFA000, var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .btn { 
+      display: inline-block; 
+      background: var(--accent); 
+      color: #000; 
+      padding: .75rem 1.5rem; 
+      border-radius: 30px; 
+      text-decoration: none; 
+      font-weight: bold; 
+      transition: all .3s; 
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+    .btn:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 100%;
+      background: rgba(255,255,255,0.2);
+      transition: all .3s;
+      z-index: -1;
+    }
+    .btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px var(--accent), 0 0 30px var(--accent);
+    }
+    .btn:hover:before {
+      width: 100%;
+    }
+    .content { max-width: 800px; margin: 2rem auto; padding: 0 1rem; }
+    .content section { margin-bottom: 2rem; }
+    .content h2 { color: var(--accent); margin-bottom: .5rem; }
+    .content ul { list-style: none; }
+    .content li { margin-left: 1.2rem; position: relative; padding-left: 1.2rem; }
+    .content li::before { content: "•"; position: absolute; left: 0; color: var(--accent); }
+    .footer { text-align: center; padding: 20px; margin-top: 50px; }
+    .testimonials { background: rgba(255,140,0,0.1); padding: 1rem; border-radius: 8px; margin-bottom: 1rem; }
+    blockquote { font-style: italic; margin: 0 0 0.5rem; }
+    cite { display: block; text-align: right; font-weight: 600; }
+    .contact-form { display: flex; flex-direction: column; gap: 0.5rem; }
+    .contact-form input,
+    .contact-form textarea { padding: 0.5rem; border-radius: 4px; border: none; }
+    .contact-form button { align-self: flex-start; }
+    /* Apple-like nav and smooth scroll */
+    html { scroll-behavior: smooth; }
+    nav { position: fixed; top: 0; width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; background: transparent; z-index: 100; }
+    nav .logo-text { color: var(--text); font-weight: 600; font-size: 1.2rem; }
+    nav .nav-links a { margin: 0 1rem; color: var(--text); text-decoration: none; font-weight: 500; transition: color .3s; }
+    nav .nav-links a:hover { color: var(--accent); }
+    /* Typography enhancements */
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      background: linear-gradient(90deg, var(--accent), #FFA000);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .content p,
+    .content li {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      letter-spacing: 0.5px;
+    }
+    blockquote {
+      position: relative;
+      background: rgba(255,140,0,0.07);
+      border-left: 4px solid var(--accent);
+      padding: 1rem 1rem 1rem 1.5rem;
+      margin: 1.5rem 0;
+      font-size: 1.1rem;
+      font-style: italic;
+    }
+    blockquote::before {
+      content: '“';
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      font-size: 3rem;
+      color: var(--accent);
+    }
+    blockquote::after {
+      content: '”';
+      position: absolute;
+      right: 10px;
+      bottom: -10px;
+      font-size: 3rem;
+      color: var(--accent);
+    }
+    /* Add subtle text-shadow for depth */
+    h1, .logo, .btn {
+      text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+    }
+    /* Features grid styling */
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.5rem; margin-top: 1rem; }
+    .feature-item { text-align: center; padding: 1rem; background: rgba(255,140,0,0.05); border-radius: 8px; }
+    .feature-item h3 { margin: 0.5rem 0; font-size: 1.2rem; }
+    .feature-item p { font-size: 1rem; }
+    /* Glass effect for cards */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: 15px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      padding: 25px;
+      margin-bottom: 30px;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .glass-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(255, 140, 0, 0.15);
+    }
+    /* Neon effects */
+    .neon-text {
+      text-shadow: 0 0 5px var(--accent), 0 0 10px var(--accent), 0 0 20px var(--accent);
+    }
+    .neon-border {
+      box-shadow: 0 0 5px var(--accent), 0 0 10px var(--accent);
+    }
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 15px;
+    }
+    .social-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(255, 140, 0, 0.2);
+      color: var(--accent);
+      transition: all 0.3s;
+    }
+    .social-icon:hover {
+      background: var(--accent);
+      color: #fff;
+      transform: translateY(-5px);
+      box-shadow: 0 0 15px var(--accent);
+    }
+    /* Стили для телефона с Telegram */
+    .telegram-mockup {
+      width: 320px;
+      height: 640px;
+      margin: 0 auto 40px;
+      position: relative;
+      border-radius: 40px;
+      background: #000;
+      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5), 
+                  0 0 20px rgba(255, 140, 0, 0.3);
+      overflow: hidden;
+      transform-style: preserve-3d;
+      transform: perspective(1000px) rotateY(-5deg);
+      transition: all 0.5s ease;
+    }
+    
+    .telegram-mockup:hover {
+      transform: perspective(1000px) rotateY(0deg);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 
+                  0 0 30px rgba(255, 140, 0, 0.4);
+    }
+    
+    .phone-notch {
+      width: 150px;
+      height: 25px;
+      background: #000;
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      border-bottom-left-radius: 15px;
+      border-bottom-right-radius: 15px;
+      z-index: 5;
+    }
+    
+    .phone-home-indicator {
+      width: 120px;
+      height: 5px;
+      background: #fff;
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 3px;
+      z-index: 5;
+    }
+    
+    .tg-screen {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      background: #17212B;
+      overflow: hidden;
+    }
+    
+    .tg-status-bar {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 15px;
+      background: rgba(0,0,0,0.3);
+      color: white;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    
+    .tg-status-bar .time {
+      font-weight: bold;
+    }
+    
+    .tg-status-bar .right {
+      display: flex;
+      gap: 5px;
+    }
+    
+    .tg-telegram-button {
+      position: absolute;
+      top: 36px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #0088CC;
+      color: white;
+      font-weight: bold;
+      padding: 4px 10px;
+      border-radius: 15px;
+      z-index: 3;
+      font-size: 13px;
+    }
+    
+    .tg-header {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      background: #17212B;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .tg-back {
+      color: #8A8D91;
+      font-size: 28px;
+      margin-right: 10px;
+    }
+    
+    .tg-chat-info {
+      flex: 1;
+    }
+    
+    .tg-chat-name {
+      color: white;
+      font-weight: 500;
+      font-size: 16px;
+      margin-bottom: 2px;
+    }
+    
+    .tg-chat-users {
+      color: #8A8D91;
+      font-size: 13px;
+    }
+    
+    .tg-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: #fff;
+      margin-left: auto;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .tg-messages {
+      height: calc(100% - 140px);
+      overflow-y: auto;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .tg-message {
+      max-width: 80%;
+      margin-bottom: 10px;
+      animation: fadeInUp 0.5s;
+    }
+    
+    .tg-message-bot {
+      background: #212D3B;
+      border-radius: 10px 10px 10px 0;
+      padding: 8px 12px;
+      color: white;
+      align-self: flex-start;
+    }
+    
+    .tg-message-user {
+      background: #7E57C2;
+      border-radius: 10px 10px 0 10px;
+      padding: 8px 12px;
+      color: white;
+      align-self: flex-end;
+    }
+    
+    .tg-message-time {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.5);
+      text-align: right;
+      margin-top: 3px;
+    }
+    
+    .tg-buttons {
+      padding: 0 10px;
+    }
+    
+    .tg-button {
+      width: 100%;
+      padding: 10px;
+      text-align: center;
+      margin: 8px 0;
+      border-radius: 10px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+    
+    .tg-register-button {
+      background: #7E57C2;
+      color: white;
+    }
+    
+    .tg-input-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      align-items: center;
+      background: #17212B;
+      padding: 8px;
+      z-index: 2;
+    }
+    
+    .tg-input-field {
+      flex: 1;
+      background: #222223;
+      border-radius: 18px;
+      padding: 8px 15px;
+      color: white;
+      border: none;
+      margin: 0 5px;
+      font-size: 14px;
+    }
+    
+    .tg-input-icon {
+      color: #8A8D91;
+      font-size: 20px;
+      margin: 0 5px;
+    }
+    
+    .tg-sticker {
+      width: 100px;
+      height: 100px;
+      align-self: center;
+      margin: 10px 0;
+    }
+    
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    /* Встроенный логотип для аватара в телеграм */
+    .bike-logo-avatar {
+      background-color: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      overflow: hidden;
+    }
+    
+    .logo-img {
+      max-width: 100%;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+  <!-- Современный анимированный фон -->
+  <div class="bg-blur"></div>
+
+  <nav data-aos="fade-down">
+    <div class="logo-text">BikePark<sup>54</sup></div>
+    <div class="nav-links">
+      <a href="#requirements">Что нужно</a>
+      <a href="#pricing">Цены</a>
+      <a href="#testimonials">Отзывы</a>
+      <a href="#contact">Контакты</a>
+    </div>
+  </nav>
+
+  <header class="hero animate__animated animate__fadeInDown">
+    <img src="logo.png" alt="BikePark54 Logo" class="logo animate__animated animate__zoomIn animate__delay-1s">
+    <h1 class="animate__animated animate__fadeInUp animate__delay-1s">BikePark<sup>54</sup></h1>
+    <p class="subtitle animate__animated animate__fadeInUp animate__delay-2s"><span id="typed"></span></p>
+    <a href="https://t.me/BikePark54_bot" class="btn animate__animated animate__pulse animate__infinite animate__delay-3s">Перейти в бот</a>
+  </header>
+
+  <main class="content">
+    <section class="requirements glass-card animate__animated animate__fadeInUp animate__delay-1s">
+      <h2>Что нужно для аренды</h2>
+      <ul>
+        <li><strong>Граждане РФ</strong>: паспорт, регистрация</li>
+        <li><strong>Иностранцы</strong>: паспорт, регистрация, миграционная карта и трудовой договор</li>
+      </ul>
+    </section>
+
+    <section class="pricing glass-card animate__animated animate__fadeInUp animate__delay-2s">
+      <h2>Наши цены</h2>
+      <ul>
+        <li>2 недели – 6 000 ₽ (7 250 ₽ с двумя АКБ)</li>
+        <li>1 месяц – 11 000 ₽ (13 000 ₽ с двумя АКБ)</li>
+      </ul>
+    </section>
+
+    <section class="bonuses glass-card animate__animated animate__fadeInUp animate__delay-3s">
+      <h2>Бонусы и акции</h2>
+      <ul>
+        <li>Оплати 30 дней – получи 1 день аренды в подарок!</li>
+        <li>Приведи друга – получи 1 день аренды бесплатно!</li>
+      </ul>
+    </section>
+
+    <section class="bike-specs glass-card animate__animated animate__fadeInUp animate__delay-4s">
+      <h2>Электровелосипед Wenbox Monster</h2>
+      <ul>
+        <li>Мощность мотор-колеса – 1 200 W (декларируемые 240 W, права не нужны)</li>
+        <li>Аккумулятор 60 V 30 Ah (железо‑фосфатный, съёмный)</li>
+        <li>Диаметр колёс – 16″, 3 режима скорости до 60 км/ч</li>
+        <li>Гидравлические передний и задний тормоза</li>
+        <li>Стальная рама (нагрузка до 200 кг)</li>
+        <li>Амортизационная вилка – ход 80 мм</li>
+        <li>Подсветка: передний прожектор, ходовые огни, поворотники, стоп‑сигналы</li>
+        <li>Большой цветной дисплей</li>
+        <li>Сигнализация с дистанционным запуском</li>
+        <li>Держатель для телефона с зарядкой на руле</li>
+        <li>Мягкое седло с пружинами (регулировка по высоте)</li>
+      </ul>
+    </section>
+
+    <!-- Наши преимущества -->
+    <section id="features" class="content" data-aos="fade-up" data-aos-delay="100">
+      <h2>Наши преимущества</h2>
+      <div class="features-grid">
+        <div class="feature-item animate__animated animate__zoomIn animate__delay-1s">
+          <i class="icon ion-speedometer" style="font-size:2rem;color:var(--accent);"></i>
+          <h3>Мощность 1200W</h3>
+          <p>Высокая скорость до 60 км/ч</p>
+        </div>
+        <div class="feature-item animate__animated animate__zoomIn animate__delay-2s">
+          <i class="icon ion-battery-charging" style="font-size:2rem;color:var(--accent);"></i>
+          <h3>АКБ 60V 30Ah</h3>
+          <p>Железо‑фосфатный, съёмный</p>
+        </div>
+        <div class="feature-item animate__animated animate__zoomIn animate__delay-3s">
+          <i class="icon ion-water" style="font-size:2rem;color:var(--accent);"></i>
+          <h3>Гидравлические тормоза</h3>
+          <p>Надёжное торможение</p>
+        </div>
+        <div class="feature-item animate__animated animate__zoomIn animate__delay-4s">
+          <i class="icon ion-bicycle" style="font-size:2rem;color:var(--accent);"></i>
+          <h3>Прочная рама</h3>
+          <p>Нагрузка до 200 кг</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Отзывы клиентов -->
+    <section id="testimonials" class="content" data-aos="fade-up">
+      <h2>Отзывы клиентов</h2>
+      <div class="testimonials">
+        <blockquote>«Отличный сервис, велосипед работает без нареканий!»</blockquote>
+        <cite>— Иван Иванов</cite>
+      </div>
+      <div class="testimonials">
+        <blockquote>«Удобно, быстро, порадовали бонусы!»</blockquote>
+        <cite>— Мария Петрова</cite>
+      </div>
+    </section>
+
+    <!-- Контактная форма -->
+    <section id="contact" class="content" data-aos="fade-up" data-aos-delay="200">
+      <h2>Связаться с нами</h2>
+      <form class="contact-form">
+        <input type="text" placeholder="Ваше имя" required>
+        <input type="email" placeholder="Ваш email" required>
+        <textarea placeholder="Сообщение" required></textarea>
+        <button type="submit" class="btn">Отправить</button>
+      </form>
+    </section>
+
+    <!-- 3D Telegram Bot UI -->
+    <section id="telegram-bot" class="content glass-card animate__animated animate__fadeInUp" data-aos="fade-up">
+      <h2 class="neon-text">Наш Telegram-бот</h2>
+      <p class="subtitle-small" style="text-align: center; margin-bottom: 30px;">Взгляните на интерфейс нашего бота для аренды электровелосипедов</p>
+      
+      <div class="telegram-mockup">
+        <div class="phone-notch"></div>
+        <div class="tg-screen">
+          <div class="tg-status-bar">
+            <div class="time">10:48</div>
+            <div class="telegram-button tg-telegram-button">TELEGRAM</div>
+            <div class="right">
+              <i class="fas fa-signal"></i>
+              <i class="fas fa-wifi"></i>
+              <i class="fas fa-battery-three-quarters"></i>
+            </div>
+          </div>
+          
+          <div class="tg-header">
+            <div class="tg-back"><i class="fas fa-chevron-left"></i></div>
+            <div class="tg-chat-info">
+              <div class="tg-chat-name">BikePark<sup>54</sup></div>
+              <div class="tg-chat-users">84 пользователя</div>
+            </div>
+            <div class="tg-avatar">
+              <div class="bike-logo-avatar">
+                <img src="logo.png" alt="BikePark54 Logo" style="width: 100%; height: 100%; background-color: white; object-fit: contain; padding: 2px;">
+              </div>
+            </div>
+          </div>
+          
+          <div class="tg-messages">
+            <div class="tg-message tg-message-bot">
+              <div>👍 Готовы предоставить лучшие условия:</div>
+              <div>- Удобные тарифы и гибкие условия аренды.</div>
+              <div>- Все просто, супер и комфортно!</div>
+              <div class="tg-message-time">10:48</div>
+            </div>
+            
+            <div class="tg-message tg-message-bot">
+              <div>👋 Чтобы зарегистрироваться, нажмите 'Зарегистрироваться'</div>
+              <div class="tg-message-time">10:48</div>
+            </div>
+            
+            <div class="tg-message tg-message-user">
+              <div>📝 Зарегистрироваться</div>
+              <div class="tg-message-time">10:48 ✓✓</div>
+            </div>
+            
+            <div class="tg-message tg-message-bot">
+              <div>🎉 Добро пожаловать в BikePark<sup>54</sup>! ✨</div>
+              <div>Создадим ваш профиль за пару минут.</div>
+              <div class="tg-message-time">10:48</div>
+            </div>
+            
+            <div class="tg-message tg-message-bot">
+              <div>👋 КАК ВАС ЗОВУТ?</div>
+              <div>(Укажите только имя, как в паспорте)</div>
+              <div class="tg-message-time">10:48</div>
+            </div>
+            
+            <div class="tg-message tg-message-user">
+              <div>Иван</div>
+              <div class="tg-message-time">10:48 ✓✓</div>
+            </div>
+            
+            <div class="tg-message tg-message-bot">
+              <div>👋 Отлично, Иван!</div>
+              <div class="tg-message-time">10:48</div>
+            </div>
+            
+            <div class="tg-message tg-message-bot">
+              <div>👋 ТЕПЕРЬ ВАША ФАМИЛИЯ?</div>
+              <div>(Тоже как в паспорте, одним словом)</div>
+              <div class="tg-message-time">10:48</div>
+            </div>
+          </div>
+          
+          <div class="tg-input-bar">
+            <div class="tg-input-icon"><i class="far fa-smile"></i></div>
+            <div class="tg-input-field">Сообщение</div>
+            <div class="tg-input-icon"><i class="fas fa-paperclip"></i></div>
+            <div class="tg-input-icon"><i class="fas fa-microphone"></i></div>
+          </div>
+        </div>
+        <div class="phone-home-indicator"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer glass-card animate__animated animate__fadeInUp animate__delay-5s">
+    <div class="social-icons">
+      <a href="#" class="social-icon"><i class="fab fa-telegram fa-lg"></i></a>
+      <a href="#" class="social-icon"><i class="fab fa-whatsapp fa-lg"></i></a>
+      <a href="#" class="social-icon"><i class="fab fa-instagram fa-lg"></i></a>
+    </div>
+    <p>© 2025 BikePark<sup>54</sup> | Все права защищены</p>
+  </footer>
+
+  <!-- AOS JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <script>
+    AOS.init({ duration: 800, once: true });
+  </script>
+
+  <!-- Typed.js initialization for subtitle -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      new Typed('#typed', {
+        strings: [
+          'Сервис аренды электровелосипедов',
+          'Мощность 1200W',
+          'Скорость до 60 км/ч',
+          'Без прав – легко и быстро'
+        ],
+        typeSpeed: 60,
+        backSpeed: 40,
+        backDelay: 2000,
+        loop: true,
+        showCursor: true,
+        cursorChar: '│'
+      });
+    });
+  </script>
+</body>
+</html> 
