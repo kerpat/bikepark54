@@ -475,6 +475,7 @@
       
       .content {
         padding: 0 15px;
+        max-width: 100%;
       }
       
       .content li {
@@ -516,6 +517,10 @@
         font-size: 1.2rem;
       }
       
+      nav {
+        padding: 0.5rem 1rem;
+      }
+      
       .nav-links a {
         margin: 0 8px;
         font-size: 14px;
@@ -524,11 +529,66 @@
       .telegram-mockup {
         width: 280px;
         height: 560px;
+        transform: perspective(1000px) rotateY(0);
+      }
+      
+      .tg-messages {
+        height: calc(100% - 120px);
+      }
+      
+      .tg-message {
+        max-width: 95%;
+        font-size: 14px;
+      }
+      
+      /* Исправление видимости текста в сообщениях */
+      .tg-message-bot div, 
+      .tg-message-user div {
+        word-break: break-word;
+        color: #fff;
+      }
+      
+      /* Выравнивание заголовков на мобильных */
+      .hero h1 {
+        font-size: 2rem;
+      }
+      
+      /* Улучшение читаемости контента */
+      .features-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      
+      .feature-item {
+        padding: 15px 10px;
+      }
+      
+      .feature-item h3 {
+        font-size: 1rem;
+      }
+      
+      .testimonials {
+        padding: 15px;
+        margin-bottom: 20px;
+      }
+      
+      .contact-form input,
+      .contact-form textarea {
+        font-size: 16px;
+        padding: 12px;
+      }
+      
+      /* Выравнивание футера */
+      .footer p {
+        font-size: 14px;
       }
     }
     
     /* Дополнительные стили для очень маленьких экранов */
     @media screen and (max-width: 375px) {
+      nav {
+        padding: 0.5rem;
+      }
+      
       .nav-links a {
         margin: 0 5px;
         font-size: 12px;
@@ -547,8 +607,29 @@
       }
       
       .telegram-mockup {
-        width: 250px;
-        height: 500px;
+        width: 260px;
+        height: 520px;
+      }
+      
+      .tg-message {
+        font-size: 13px;
+      }
+      
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .hero h1 {
+        font-size: 1.8rem;
+      }
+      
+      .subtitle {
+        font-size: 1rem;
+      }
+      
+      .btn {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
       }
     }
   </style>
