@@ -471,7 +471,12 @@
     /* Медиа-запросы для мобильных устройств */
     @media screen and (max-width: 768px) {
       body {
-        background: linear-gradient(135deg, #12121e, #1c1c2c);
+        background: linear-gradient(135deg, #0c0c14, #191927);
+      }
+      
+      .content {
+        padding: 0 15px;
+        max-width: 100%;
       }
       
       /* Для контента и фоновых элементов */
@@ -483,11 +488,6 @@
       body::before {
         background: linear-gradient(125deg, rgba(255, 140, 0, 0.05) 0%, rgba(0, 0, 0, 0) 40%),
                   linear-gradient(45deg, rgba(0, 0, 0, 0) 60%, rgba(255, 140, 0, 0.08) 100%);
-      }
-      
-      .content {
-        padding: 0 15px;
-        max-width: 100%;
       }
       
       .content li {
